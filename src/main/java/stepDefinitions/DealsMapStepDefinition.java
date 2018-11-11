@@ -1,5 +1,6 @@
 //package stepDefinitions;
 //
+//import cucumber.api.DataTable;
 //import cucumber.api.java.en.Given;
 //import cucumber.api.java.en.Then;
 //import cucumber.api.java.en.When;
@@ -11,7 +12,9 @@
 //import org.openqa.selenium.chrome.ChromeDriver;
 //import org.openqa.selenium.interactions.Actions;
 //
-//public class ContactStepDefinition {
+//import java.util.Map;
+//
+//public class DealsMapStepDefinition {
 //
 //    public static WebDriver driver;
 //
@@ -28,10 +31,12 @@
 //        Assert.assertEquals("#1 Free CRM software in the cloud for sales and service", title);
 //    }
 //
-//    @Then("^user enters \"(.*)\" and \"(.*)\"$")
-//    public void user_enters_username_and_password(String username, String password){
-//        driver.findElement(By.name("username")).sendKeys(username);
-//        driver.findElement(By.name("password")).sendKeys(password);
+//    @Then("^user enters username and password$")
+//    public void user_enters_username_and_password(DataTable credentials) {
+//        for (Map<String, String> data : credentials.asMaps(String.class, String.class)) {
+//            driver.findElement(By.name("username")).sendKeys(data.get("username"));
+//            driver.findElement(By.name("password")).sendKeys(data.get("password"));
+//        }
 //    }
 //
 //    @Then("^user clicks on login button$")
@@ -47,21 +52,28 @@
 //        Assert.assertEquals("CRMPRO", title);
 //    }
 //
-//    @Then("^user moves to new contact page$")
+//    @Then("^user moves to new deal page$")
 //    public void user_moves_to_new_contact_page() {
 //        driver.switchTo().frame("mainpanel");
 //        Actions actions = new Actions(driver);
-//        actions.moveToElement(driver.findElement(By.xpath("//a[contains(text(),'Contacts')]"))).build().perform();
-//        driver.findElement(By.xpath("//a[contains(text(),'New Contact')]")).click();
+//        actions.moveToElement(driver.findElement(By.xpath("//a[contains(text(),'Deals')]"))).build().perform();
+//        driver.findElement(By.xpath("//a[contains(text(),'New Deal')]")).click();
 //    }
 //
-//    @Then("^user enters contact details \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\"$")
-//    public void user_enters_contact_details_and_and(String firstname, String lastname, String position) {
-//        driver.findElement(By.id("first_name")).sendKeys(firstname);
-//        driver.findElement(By.id("surname")).sendKeys(lastname);
-//        driver.findElement(By.id("company_position")).sendKeys(position);
-//        driver.findElement((By.xpath("//input[@type='submit']"))).click();
-//    }
+//    @Then("^user enters deal details$")
+//	public void user_enters_deal_details(DataTable dealData) {
+//		for (Map<String, String> data : dealData.asMaps(String.class, String.class)) {
+//			driver.findElement(By.id("title")).sendKeys(data.get("title"));
+//			driver.findElement(By.id("amount")).sendKeys(data.get("amount"));
+//			driver.findElement(By.id("probability")).sendKeys(data.get("probability"));
+//			driver.findElement(By.id("commission")).sendKeys(data.get("commission"));
+//			driver.findElement(By.xpath("//input[@type='submit' and @value='Save']")).click();
+//			//move to new deal page:
+//			Actions action = new Actions(driver);
+//			action.moveToElement(driver.findElement(By.xpath("//a[contains(text(),'Deals')]"))).build().perform();
+//			driver.findElement(By.xpath("//a[contains(text(),'New Deal')]")).click();
+//		}
+//	}
 //
 //    @Then("^close the browser$")
 //    public void close_the_browser() {
